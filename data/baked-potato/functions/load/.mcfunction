@@ -1,4 +1,4 @@
-#> namespace:load/
+#> baked-potato:load/
 #
 # #load 処理
 #
@@ -7,4 +7,4 @@
 
 
 #> ロード時のメッセージを表示
-tellraw @a ["",{"text": "loaded: ","color": "green"},"namespace"]
+tellraw @a ["",{"text": "loaded: ","color": "green"},"baked-potato"]

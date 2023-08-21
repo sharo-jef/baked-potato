@@ -1,4 +1,4 @@
-#> namespace:uninstall/
+#> baked-potato:uninstall/
 #
 # #uninstall 処理
 #

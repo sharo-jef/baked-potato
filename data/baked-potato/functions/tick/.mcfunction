@@ -1,4 +1,4 @@
-#> namespace:tick/
+#> baked-potato:tick/
 #
 # #tick 処理
 #
