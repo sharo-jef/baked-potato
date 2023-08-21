@@ -1,0 +1,58 @@
+name: Release
+
+env:
+  PACK_NAME: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      level:
+        description: 'Release level'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+        - patch
+        - minor
+        - major
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions-ecosystem/action-get-latest-tag@v1
+        id: get-latest-tag
+      - uses: actions-ecosystem/action-bump-semver@v1
+        id: bump-semver
+        with:
+          current_version: ${{ steps.get-latest-tag.outputs.tag }}
+          level: ${{ inputs.level }}
+      - uses: actions-ecosystem/action-push-tag@v1
+        with:
+          tag: ${{ steps.bump-semver.outputs.new_version }}
+          message: '${{ steps.bump-semver.outputs.new_version }}'
+      - name: Create Changelog
+        id: create_changelog
+        uses: mikepenz/release-changelog-builder-action@v3
+        with:
+          configurationJson: |
+            {
+              "template": "What's changed \n #{{UNCATEGORIZED}} \n\n **Full Changelog**: #{{RELEASE_DIFF}}",
+              "sort": {
+                "order": "DESC",
+                "on_property": "mergedAt"
+              }
+            }
+      - name: Create release file
+        run: zip -r ${{ env.PACK_NAME }}-${{ steps.bump-semver.outputs.new_version }}.zip ./*
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.bump-semver.outputs.new_version }}
+          body: ${{ steps.create_changelog.outputs.changelog }}
+          files: |
+            ${{ env.PACK_NAME }}-${{ steps.bump-semver.outputs.new_version }}.zip

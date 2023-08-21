@@ -1,0 +1,46 @@
+name: Bug report
+description: File a bug report
+title: "【Bug】"
+labels: ["bug"]
+assignees:
+  - kanisan007
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 内容
+      description: バグの内容を記載してください。
+      placeholder: バグの内容を記載してください。
+    validations:
+      required: true
+  - type: dropdown
+    id: version
+    attributes:
+      label: バージョン
+      multiple: true
+      description: バグを確認したバージョンを選択してください。
+      options:
+        - 1.19.3 (Recommended)
+        - 1.19.2
+        - 1.19.1
+        - '1.19'
+    validations:
+      required: true
+  - type: dropdown
+    id: environment
+    attributes:
+      label: 環境
+      description: バグを確認した環境を選択してください。
+      multiple: true
+      options:
+        - Vanilla
+        - Forge
+        - Fabric
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: ログ
+      description: ログをコピペしてください。
+      # render: shell
