@@ -1,7 +1,7 @@
 name: Release
 
 env:
-  PACK_NAME: Release
+  PACK_NAME: baked-potato
 
 on:
   workflow_dispatch:
